@@ -1,0 +1,27 @@
+# fly.toml app configuration file generated for 6weekspace-mysql on 2023-06-30T14:56:01+02:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = "6weekspace-mysql"
+primary_region = "ams"
+
+
+kill_signal = "SIGINT"
+kill_timeout = 5
+[processes]
+app = "--datadir /data/mysql"
+
+[mounts]
+  source="mysqldata"
+  destination="/data"
+
+[env]
+  MYSQL_DATABASE = "6weekspace-mysql"
+  MYSQL_USER = "non_root_user"
+
+# As of 04/25/2023:
+# MySQL 8.0.33 has a bug in it
+# so avoid that specific version
+[build]
+  image = "mysql:5.7.34"
